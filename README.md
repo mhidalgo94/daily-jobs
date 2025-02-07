@@ -1,15 +1,15 @@
 # React Native App con Expo
 
-Este es un proyecto básico de React Native utilizando Expo.
+This is a basic React Native project using Expo.
 
-## Requisitos
+## Requirements
 
 - Node.js (última versión recomendada)
 - Expo CLI instalado globalmente (`npm install -g expo-cli`)
 
-## Instalación
+## Install
 
-Clona el repositorio y ejecuta los siguientes comandos:
+Clone the repository and run the following commands:
 
 ```sh
 npm install
