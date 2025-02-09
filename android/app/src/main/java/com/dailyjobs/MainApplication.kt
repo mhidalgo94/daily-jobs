@@ -1,4 +1,4 @@
-package com.anonymous.daily_jobs
+package com.dailyjobs
 
 import android.app.Application
 import android.content.res.Configuration

@@ -47,7 +47,12 @@
             "./assets/fonts/Rubik-Light.ttf",
             "./assets/fonts/Rubik-Medium.ttf",
             "./assets/fonts/Rubik-Regular.ttf",
-            "./assets/fonts/Rubik-SemiBold.ttf"
+            "./assets/fonts/Rubik-SemiBold.ttf",
+
+            "./node_modules/@react-native-vector-icons/fontawesome6/fonts/FontAwesome6_Brands.ttf",
+            "./node_modules/@react-native-vector-icons/fontawesome6/fonts/FontAwesome6_Regular>.ttf",
+            "./node_modules/@react-native-vector-icons/fontawesome6/fonts/FontAwesome6_Solid.ttf"
+            
           ]
         }
       ],

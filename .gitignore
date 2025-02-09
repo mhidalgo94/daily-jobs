@@ -38,10 +38,12 @@ yarn-error.*
 app-example
 
 
-+ /android
-+ /ios
 
 .env
 ./.env
 
 .vscode/
+
+
+android/
+ios/
