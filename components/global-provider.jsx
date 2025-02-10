@@ -13,7 +13,7 @@ export const GlobalProvider = ({children}) =>{
 
     const login = (userData) => {
         setIsLogged(true);
-        setUser((user)=>({...user, userData}));
+        setUser((user)=>({...userData}));
 };
 
     const logout = () => {

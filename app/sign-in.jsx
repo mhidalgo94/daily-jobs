@@ -26,12 +26,12 @@ export default function SignIn(){
             storeUserSession({"access_token": data.access_token, token_type: data.token_type});
         }
 
-        if (data.name && data.email){
-            // storeData("user",{"email": data.email, "name":data.name})
-            login({"email": data.email, "name":data.name})
+        if (data.user){
+
+            login(data.user);
         }
-        console.log("Login success")
-        router.push("/dashboart/home")
+        console.log("Login success");
+        router.push("/dashboart/home");
     }
 
     const handleLoginGoogle = async ()=>{

@@ -26,6 +26,12 @@ module.exports = {
           300: '#1F8E7A', 
           400: '#1B7A69',
         },
+        regular: {
+          DEFAULT: '#7AE582', 
+          // 200: '#4DB7A4', 
+          // 300: '#1F8E7A', 
+          // 400: '#1B7A69',
+        },
         // Danger (Rojo)
         danger: {
           DEFAULT: '#D9534F', // Color rojo fuerte para alertas y errores

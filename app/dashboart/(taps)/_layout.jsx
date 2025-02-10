@@ -1,6 +1,5 @@
 import { Tabs } from "expo-router"
-// import { Text, View } from "react-native";
-import { Ionicons } from "../../../components/tabs/tabs-icons";
+import { IconsNavigations } from "../../../components/tabs/tabs-icons";
 
 function TabsLayout(){
 
@@ -22,7 +21,7 @@ function TabsLayout(){
                      options={{
                         title:"Home",
                         headerShown:false,
-                        tabBarIcon:({focused})=><Ionicons name="home" focused={focused}/>
+                        tabBarIcon:({focused})=><IconsNavigations name="home" focused={focused}/>
                      }}
                 />
                 <Tabs.Screen
@@ -30,7 +29,7 @@ function TabsLayout(){
                      options={{
                         title:"Explore",
                         headerShown:false,
-                        tabBarIcon:({focused})=><Ionicons name="search" focused={focused}/>
+                        tabBarIcon:({focused})=><IconsNavigations name="search" focused={focused}/>
                      }}
                 />
                 <Tabs.Screen
@@ -38,7 +37,7 @@ function TabsLayout(){
                      options={{
                         title:"Analysis",
                         headerShown:false,
-                        tabBarIcon:({focused})=><Ionicons name="bar-chart" focused={focused}/>
+                        tabBarIcon:({focused})=><IconsNavigations name="bar-chart" focused={focused}/>
                      }}
                 />
                 <Tabs.Screen
@@ -46,7 +45,7 @@ function TabsLayout(){
                      options={{
                         title:"Account",
                         headerShown:false,
-                        tabBarIcon:({focused})=><Ionicons name="person-circle" focused={focused}/>
+                        tabBarIcon:({focused})=><IconsNavigations name="person-circle" focused={focused}/>
                      }}
                 />
         </Tabs>
