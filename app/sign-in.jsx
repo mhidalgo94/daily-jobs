@@ -3,8 +3,8 @@ import {Text, ScrollView, Image, View, TouchableOpacity, Alert} from 'react-nati
 import images from "./contants/images";
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import {Link} from 'expo-router';
-
+import {Link, Redirect} from 'expo-router';
+import { BlurView } from "expo-blur";
 import { useFetchApi, useFetchLogin } from "../hooks/fetch_api";
 import { storeUserSession, retrieveUserSession } from "../hooks/user_sessions";
 
@@ -13,7 +13,7 @@ import { useGlobalContextPrivate } from "../components/global-provider";
 
 export default function SignIn(){
     const router = useRouter();
-    const {login} = useGlobalContextPrivate();
+    const {login, isLogged} = useGlobalContextPrivate();
     const backendValidation = async (idToken)=> {
         const response = await useFetchLogin('/auth/google',"POST",{token:idToken});
 
@@ -60,100 +60,64 @@ export default function SignIn(){
     }
 
     const handLoginApple = async ()=>{
-        const session = await retrieveUserSession("user_session")
-        if(session.access_token == undefined || session.access_token == null){
-            Alert.alert("Warning", "Error server");
-        }
-        const {request, loading, error} = await useFetchApi(session.access_token, session.token_type);
-        
-        const response = await request("/jobs/", "GET");
-        console.log(loading, error);
-
-        console.log(response)
-        // try {
-        //     const credential = await AppleAuthentication.signInAsync({
-        //     requestedScopes: [
-        //         AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-        //         AppleAuthentication.AppleAuthenticationScope.EMAIL,
-        //     ],
-        //     });
-        //     console.log(credential);
-        //     // signed in
-        // } catch (e) {
-        //     if (e.code === 'ERR_REQUEST_CANCELED') {
-        //     // handle that the user canceled the sign-in flow
-        //     } else {
-        //     // handle other errors
-        //     }
-        // }
-        // const result = false;
-        
-        // if (result){
-        //     console.log('Login successfully')
-
-        // }else{
-        //     Alert.alert("Error", "Failed  to login",[
-        //         {text:"Do it again",
-        //         onPress:()=> console.log('it did again')
-        //         },
-        //         {text:"Cancel",
-        //         onPress:()=> console.log('Canceled')
-        //         },
-        //         {text:"Ok",
-        //             onPress:()=> console.log('OK')
-        //         }
-        //     ])
-        // }
+        console.log("login with apple")
+    }
+    if (isLogged){
+        return <Redirect href="/dashboart/home" />
     }
 
     return (
-        <SafeAreaView className="bg-white h-full">
-            <ScrollView contentContainerClassname="h-full mb-4">
-                <Image
-                    source={images.signinimg}
-                    // className="w-full h-80"
-                    resizeMode="contain"
-                    style={{ width: "auto", height: 360 }}
-                    />
-                <View className="px-10 mt-10">
-                    <Text className="text-base text-center uppercase font-rubik text-black-100 ">Welcome to Daily Jobs</Text>
-                    <Text className="text-3xl text-center uppercase font-rubik-bold text-primary ">Record today, remember tomorrow.</Text>
-                </View>
-                <View className="px-8">
-                    
-                    <Text className="text-lg font-rubik text-black-200 text-center mt-12">Login to Daily Jobs </Text>
-                    
-                    
-                    <TouchableOpacity onPress={handleLoginGoogle}  className="bg-white shadow-md shadow-zinc-300 rounded-full w-full py-4 mt-5" >
-                        <View className="flex flex-row item-center justify-center">
-                            <Image 
-                                source={images.googleimg}
-                                className="w-6 h-6"
-                                resizeMethod="contain"
-                                />
-                            <Text className="text-[20px] font-rubik-medium text-black-300 ml-3">Sign in with Google</Text>
-                        </View>
-                    </TouchableOpacity>
+        <BlurView intensity={100}>
+            <SafeAreaView>
 
-                    <TouchableOpacity onPress={handLoginApple}  className="bg-white shadow-md shadow-zinc-300 rounded-full w-full  mt-5" >
-                        <View className="flex flex-row item-center justify-center py-0 px-0">
-                            <AppleAuthentication.AppleAuthenticationButton
-                                className="w-5 h-5"
-                                onPress={handLoginApple}
-                                buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-                                buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-                                cornerRadius={25}
-                                style={{ width: "100%", height: 58 }} // You must choose default size
-                                />
-                        </View>
-                    </TouchableOpacity>
-                    <Text className="text-center mt-2" >By continuing, you agree to our 
-                        <Link href="/404"> <Text className="text-info-100 text-lg">Terms and Conditions.</Text></Link>
-                    </Text>
+            <Image source={images.bgGradiant} className="absolute top-0 left-0 "/>
+                <ScrollView contentContainerClassname="h-full">
+                        <Image
+                            source={images.signinwithoutbg}
+                            // className="w-full h-80"
+                            resizeMode="contain"
+                            style={{ width: "auto", height: 360 }}
+                            />
+                    <View className="px-10 mt-10">
+                        <Text className="text-lg text-center uppercase font-rubik text-dark-200">Welcome to Daily Jobs</Text>
+                        <Text className="text-3xl text-center uppercase font-rubik-bold text-gray-100 mt-5">Record today, remember tomorrow.</Text>
+                    </View>
+                    <View className="px-8">
+                        
+                        <Text className="text-lg font-rubik text-dark-200 text-center mt-4">Login to Daily Jobs </Text>
+                        
+                        
+                        <TouchableOpacity onPress={handleLoginGoogle}  className="bg-white rounded-full w-full py-4 mt-5" >
+                            <View className="flex flex-row item-center justify-center">
+                                <Image 
+                                    source={images.googleimg}
+                                    className="w-6 h-6"
+                                    resizeMethod="contain"
+                                    />
+                                <Text className="text-[20px] font-rubik-medium text-black-300 ml-3">Sign in with Google</Text>
+                            </View>
+                        </TouchableOpacity>
 
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+                        <TouchableOpacity onPress={handLoginApple}  className=" rounded-full w-full  mt-5" >
+                            <View className="flex flex-row item-center justify-center py-0 px-0">
+                                <AppleAuthentication.AppleAuthenticationButton
+                                    className="w-5 h-5"
+                                    onPress={handLoginApple}
+                                    buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+                                    buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+                                    cornerRadius={25}
+                                    style={{ width: "100%", height: 58 }} // You must choose default size
+                                    />
+                            </View>
+                        </TouchableOpacity>
+                        <Text className="text-center mt-2" >By continuing, you agree to our 
+                            <Link href="/404"> <Text className="text-gray-200 text-lg">Terms and Conditions.</Text></Link>
+                        </Text>
+
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        </BlurView>
     )
 }
 
