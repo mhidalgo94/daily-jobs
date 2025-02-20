@@ -11,6 +11,7 @@ function TabsLayout(){
                     backgroundColor:"white",
                     position:"absolute",
                     borderTopColor:"#0061FF1A",
+                    backgroundColor:"#1E1E1E",
                     borderTopWidth:1,
                     minHeight:70
                 },

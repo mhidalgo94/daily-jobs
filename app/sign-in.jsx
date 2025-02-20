@@ -79,7 +79,7 @@ export default function SignIn(){
                             style={{ width: "auto", height: 360 }}
                             />
                     <View className="px-10 mt-10">
-                        <Text className="text-lg text-center uppercase font-rubik text-dark-200">Welcome to Daily Jobs</Text>
+                        {/* <Text className="text-lg text-center uppercase font-rubik text-dark-200">Welcome to Daily Jobs</Text> */}
                         <Text className="text-3xl text-center uppercase font-rubik-bold text-gray-100 mt-5">Record today, remember tomorrow.</Text>
                     </View>
                     <View className="px-8">
@@ -110,7 +110,7 @@ export default function SignIn(){
                                     />
                             </View>
                         </TouchableOpacity>
-                        <Text className="text-center mt-2" >By continuing, you agree to our 
+                        <Text className="text-center mt-4" >By continuing, you agree to our 
                             <Link href="/404"> <Text className="text-gray-200 text-lg">Terms and Conditions.</Text></Link>
                         </Text>
 

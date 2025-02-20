@@ -1,8 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { HeadHome, CardHome, ListJobs } from "../../../components/tabs/home";
-import {ScrollView, View, TextInput,Text, TouchableOpacity,FlatList} from 'react-native'
+import { HeadHome, CardHome, ItemJob } from "../../../components/tabs/home";
+import {View,Text, TouchableOpacity,FlatList} from 'react-native'
 
-import { useState } from "react";
 import { Ionicons } from "../../../components/tabs/tabs-icons";
 
 
@@ -66,52 +65,36 @@ const JOBS = [
 ]
 
 export default function HomeDashboart() {
-    const [search, setSearch] = useState("")
 
 
     return (
-        <SafeAreaView >
-            <View className="pt-6 px-5 h-full bg-white">
-            {/* <ScrollView nestedScrollEnabled={true} className="pt-6 px-5 h-full bg-white"> */}
-                <HeadHome />
+          <View className="bg-darkgray">
+            <SafeAreaView >
+              <View className="pt-6 px-5 h-full">
+                <HeadHome jobs={JOBS.length} />
                 <CardHome />
-                <View className="flex flex-row items-center gap-3 w-full mt-12 border border-gray-400 p-3 rounded-xl">
-                    <Ionicons name="search"/>
-                    <TextInput
-                        className="text-xl" 
-                        onChangeText={setSearch}
-                        value={search}
-                        placeholder="Search: Job Number, Address"
-                        onFocus={false}
-                        keyboardType="default"
-                        autoComplete="off"
-                        autoCorrect={false}
-                    />
-                </View>
 
                 <View className="mt-5 p-2 flex flex-row items-center justify-between">
-                    <Text className="text-2xl font-rubik-medium">List Jobs</Text>
+                    <Text className="text-3xl text-white font-rubik-medium">List Jobs</Text>
                     <View className="flex flex-row gap-3">
                         <TouchableOpacity>
-                            <Ionicons name="calendar" size={28}/>
+                            <Ionicons name="calendar" color="#f3f4f6" size={28}/>
                         </TouchableOpacity>
 
                     </View>
                 </View>
-                <FlatList className="mb-4" data={JOBS}  
-                    renderItem={({item}) => <ListJobs job={item} />} 
+                <FlatList className="mb-4 p-1" data={JOBS}  
+                    renderItem={({item}) => <ItemJob job={item} />} 
                     keyExtractor={item => item.id}
                     // removeClippedSubviews={false}
                     // onMomentumScrollEnd={() => console.log("Scroll completado")}
-                // scrollEnabled={false}
-                // contentContainerStyle={{ flexGrow: 1 }}
-                contentContainerStyle={{ paddingBottom: 40 }}
+                  // scrollEnabled={false}
+                  // contentContainerStyle={{ flexGrow: 1 }}
+                  contentContainerStyle={{ paddingBottom: 40 }}
                 />
-                
-            </View>
-            
-            {/* </ScrollView> */}
+              </View>
 
-        </SafeAreaView>
+            </SafeAreaView>
+          </View>
     )
 }
