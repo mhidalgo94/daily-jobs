@@ -64,6 +64,9 @@ export const CardHome = ({jobs=0})=>{
 
 
 export const ItemJob = ({job})=>{
+
+    // Limit string job addres for item jobs home view
+    job.address = job.address.length > 30 ? job.address.slice(0, 30) + "..." : job.address
     const IconJobs = ({category, color = "#4b5563"}) => {
         if( category == "New Install"){
             return (
@@ -82,11 +85,7 @@ export const ItemJob = ({job})=>{
         }
     }
     // States job for list jobs
-    const StatusText = ({status})=>{
-        if(status== "Complete"){
-
-        }
-    }
+    const statusTextColor = job.status == "Complete" ? "text-regular" : job.status == "Canceled" ? "text-warning" : job.status == "On Hold" ? "text-accent"  : "text-regular"
     return (
         <View className="mt-3 p-3 rounded-2xl bg-darkgray-300">
             <View className="flex flex-row gap-3 items-center justify-between">
@@ -102,7 +101,7 @@ export const ItemJob = ({job})=>{
                     </View>
                 </View>
                 <View>
-                    <Text className="text-regular font-rubik-medium" >{job.status}</Text>
+                    <Text className={`${statusTextColor} font-rubik-medium`} >{job.status}</Text>
                 </View>
             </View>
         </View>
