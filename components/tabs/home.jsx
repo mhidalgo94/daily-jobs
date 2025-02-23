@@ -66,8 +66,8 @@ export const CardHome = ({jobs=0})=>{
 export const ItemJob = ({job})=>{
 
     // Limit string job addres for item jobs home view
-    job.address = job.address.length > 30 ? job.address.slice(0, 30) + "..." : job.address
-    const IconJobs = ({category, color = "#4b5563"}) => {
+    job.address = job.address.length > 30 ? job.address.slice(0, 25) + "..." : job.address
+    const IconJobs = ({category, color = "#e5e7eb"}) => {
         if( category == "New Install"){
             return (
                 // <View className="bg-black-100 p-2 rounded rounded-xl4">
@@ -87,10 +87,12 @@ export const ItemJob = ({job})=>{
     // States job for list jobs
     const statusTextColor = job.status == "Complete" ? "text-regular" : job.status == "Canceled" ? "text-warning" : job.status == "On Hold" ? "text-accent"  : "text-regular"
     return (
-        <View className="mt-3 p-3 rounded-2xl bg-darkgray-300">
+        <View className="mt-3 px-5 py-3 rounded-2xl bg-darkgray-300">
             <View className="flex flex-row gap-3 items-center justify-between">
-                <View className="flex flex-row gap-3">
-                    <IconJobs category={job.category} color="#3b82f6" />
+                <View className="flex flex-row gap-2">
+                    <View className="p-2 rounded-2xl bg-orange-500">
+                        <IconJobs category={job.category} size={28} color="#e5e7eb" />
+                    </View>
                     <View>
                         <View className="flex flex-row items-center">
                             <Text className="text-2xl font-rubik-medium text-gray-100">{job.id} - </Text>
