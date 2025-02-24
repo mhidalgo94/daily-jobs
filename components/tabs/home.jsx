@@ -25,10 +25,9 @@ export const HeadHome = ()=> {
 
 }
 
-export const CardHome = ({jobs=0})=>{
+export const CardHome = ({jobs})=>{
     const utc = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
-    jobs = 11
-    const colorTextJobs = jobs === 0 ? "text-red-500" : jobs <= 5 ? "text-orange-400" : jobs <= 8 ?  "text-gold-100" : jobs > 8 ? "text-purple-600" : "text-black-300"
+    const colorTextJobs = jobs.length === 0 ? "text-red-500" : jobs.length <= 5 ? "text-orange-400" : jobs.length <= 8 ?  "text-gold-100" : jobs.length > 8 ? "text-purple-600" : "text-black-300"
     return (
         <View className="mt-7 bg-gray-200  rounded-2xl">
                 <View style={stylesCard.card}>
@@ -51,7 +50,7 @@ export const CardHome = ({jobs=0})=>{
                             </View>
                             <View className="flex flex-col items-center gap-1">
                                 <Text className="text-black-200 pr-8 font-rubik-medium">Jobs</Text>
-                                <Text className={`${colorTextJobs} text-7xl pr-8 font-rubik-medium`}>{jobs}</Text>
+                                <Text className={`${colorTextJobs} text-7xl pr-8 font-rubik-medium`}>{jobs.length}</Text>
                                 <Text className="text-black-200 pr-8 font-rubik-medium">{utc}</Text>
                             </View>
                         </View>  

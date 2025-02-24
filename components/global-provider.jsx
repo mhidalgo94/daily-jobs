@@ -4,8 +4,6 @@ import { clearStoreData } from "../hooks/user_session_storage";
 
 const GlobalContext = createContext(undefined);
 
-
-
 export const GlobalProvider = ({children}) =>{
     const [user, setUser ] = useState(null)
     const [isLogged,setIsLogged] = useState(false);
@@ -13,8 +11,8 @@ export const GlobalProvider = ({children}) =>{
 
     const login = (userData) => {
         setIsLogged(true);
-        setUser((user)=>({...userData}));
-};
+        setUser({...userData});  
+    }
 
     const logout = () => {
         setIsLogged(false);
@@ -27,7 +25,8 @@ export const GlobalProvider = ({children}) =>{
             user,
             login,
             logout,
-            isLogged}}
+            isLogged,
+        }}
         >
             {children}    
         </GlobalContext.Provider>
@@ -35,7 +34,7 @@ export const GlobalProvider = ({children}) =>{
 }
 
 export const useGlobalContextPrivate = ()=>{
-    const context =useContext(GlobalContext);
+    const context = useContext(GlobalContext);
     if(!context){
         throw new Error("useGlobalContext must be used within a GlobalProvider")
     }

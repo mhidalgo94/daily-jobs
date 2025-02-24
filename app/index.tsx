@@ -10,6 +10,8 @@ export default function Index() {
   const router = useRouter();
   
   return (
+    <View className="bg-darkgray">
+
       <BlurView intensity={100}>
         <SafeAreaView >
           <Image source={images.bgGradiant} className="absolute left-0 top-0"/>
@@ -40,5 +42,7 @@ export default function Index() {
         
         </SafeAreaView>
       </BlurView>
+    </View>
+
   );
 }

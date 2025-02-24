@@ -4,7 +4,13 @@ import { useGlobalContextPrivate } from "../../../components/global-provider";
 import { ItemsBtn } from "../../../components/tabs/account";
 
 export default function Accont(){
-    const {user} = useGlobalContextPrivate();
+    const {user,logout} = useGlobalContextPrivate();
+
+    
+    const handleLogout = ()=>{
+        logout()
+
+    }
     return (
         <SafeAreaView className="bg-darkgray">
                 <View className="p-2 pt-4 mt-1">
@@ -19,7 +25,7 @@ export default function Accont(){
                                 <ItemsBtn text="Method Payment"  iconName={"card"} iconBgColorClass="bg-green-600"/>
                                 <ItemsBtn text="Privacy"  iconName={"shield-checkmark"} iconBgColorClass="bg-primary"/>
                             </View>
-                            <ItemsBtn text="Logout"  iconName={"power"}/>
+                            <ItemsBtn text="Logout"  iconName={"power"} onClick={handleLogout}/>
                         </View>
                     </ScrollView>
                 </View>

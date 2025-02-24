@@ -67,7 +67,7 @@ PODS:
     - ExpoModulesCore
   - ExpoSymbols (0.2.1):
     - ExpoModulesCore
-  - ExpoSystemUI (4.0.7):
+  - ExpoSystemUI (4.0.8):
     - ExpoModulesCore
   - ExpoWebBrowser (14.0.2):
     - ExpoModulesCore
@@ -1638,7 +1638,7 @@ PODS:
   - RNCCheckbox (0.5.17):
     - BEMCheckBox (~> 1.4)
     - React-Core
-  - RNGestureHandler (2.20.2):
+  - RNGestureHandler (2.24.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1662,7 +1662,94 @@ PODS:
   - RNGoogleSignin (13.1.0):
     - GoogleSignIn (~> 7.1)
     - React-Core
-  - RNScreens (4.4.0):
+  - RNReanimated (3.16.7):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - RNReanimated/reanimated (= 3.16.7)
+    - RNReanimated/worklets (= 3.16.7)
+    - Yoga
+  - RNReanimated/reanimated (3.16.7):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - RNReanimated/reanimated/apple (= 3.16.7)
+    - Yoga
+  - RNReanimated/reanimated/apple (3.16.7):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
+  - RNReanimated/worklets (3.16.7):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
+  - RNScreens (4.9.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1801,6 +1888,7 @@ DEPENDENCIES:
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -1996,6 +2084,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
@@ -2026,7 +2116,7 @@ SPEC CHECKSUMS:
   ExpoModulesCore: 94a213fe8b031258659e941bbf725365860aa3f3
   ExpoSplashScreen: 2f1014d44afe59f3a4e321ef0c8ac9cebfb121d2
   ExpoSymbols: a2543b833cfa11d9477247d5c7b5230e03e98031
-  ExpoSystemUI: 36f50ee42da3e814bffd01ee38edcf3c7cc0015d
+  ExpoSystemUI: 2e5356d22b077c56c132b4dcbc5d69dd667b1f8c
   ExpoWebBrowser: a212e6b480d8857d3e441fba51e0c968333803b3
   FBLazyVector: be509404b5de73a64a74284edcaf73a5d1e128b1
   fmt: 10c6e61f4be25dc963c36bd73fc7b1705fe975be
@@ -2097,9 +2187,10 @@ SPEC CHECKSUMS:
   ReactCommon: 3c1c8c6d777103c0e60e37c6c5f08e828e2a77c9
   RNCAsyncStorage: aa75595c1aefa18f868452091fa0c411a516ce11
   RNCCheckbox: 450ce156f3e29e25efa0315c96cfbabe5a39ded1
-  RNGestureHandler: 27a63f2218affdf1a426d56682f9b174904838b3
+  RNGestureHandler: fc491c834d09b0538618a3f328ab75fe8f90f5b4
   RNGoogleSignin: ba93c1137f8d5cebdd39b04f493fd212ddf5ecd6
-  RNScreens: 4a5ab20b324ed1e3fe3862796b8f8e0a6208c415
+  RNReanimated: 66cf0f600a26d2b5e74c6e0b1c77c1ab1f62fc05
+  RNScreens: ee069f569efb54804334321c916643f8cc9debaf
   RNVectorIcons: 182892e7d1a2f27b52d3c627eca5d2665a22ee28
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: be6f55a028e86c83ae066f018e9b5d24ffc45436

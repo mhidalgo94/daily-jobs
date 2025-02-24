@@ -10,13 +10,15 @@ import { storeUserSession, retrieveUserSession } from "../hooks/user_sessions";
 
 import { useRouter } from "expo-router";
 import { useGlobalContextPrivate } from "../components/global-provider";
+import { useEffect } from "react";
 
 export default function SignIn(){
+    
     const router = useRouter();
     const {login, isLogged} = useGlobalContextPrivate();
+    
     const backendValidation = async (idToken)=> {
         const response = await useFetchLogin('/auth/google',"POST",{token:idToken});
-
         if (!response.ok){
             Alert.alert("Warning", "Error response server");
         }
@@ -62,62 +64,67 @@ export default function SignIn(){
     const handLoginApple = async ()=>{
         console.log("login with apple")
     }
-    if (isLogged){
-        return <Redirect href="/dashboart/home" />
-    }
+
+    useEffect(()=>{
+        if(isLogged){
+            router.replace("/dashboart/home")
+        }
+    },[isLogged])
 
     return (
-        <BlurView intensity={100}>
-            <SafeAreaView>
+        <View className="bg-darkgray">
+            <BlurView intensity={100}>
+                <SafeAreaView >
+                <Image source={images.bgGradiant} className="absolute top-0 left-0 bg-darkgray"/>
+                    <ScrollView contentContainerClassname="h-full">
+                            <Image
+                                source={images.signinwithoutbg}
+                                // className="w-full h-80"
+                                resizeMode="contain"
+                                style={{ width: "auto", height: 360 }}
+                                />
+                        <View className="px-10 mt-10">
+                            {/* <Text className="text-lg text-center uppercase font-rubik text-dark-200">Welcome to Daily Jobs</Text> */}
+                            <Text className="text-3xl text-center uppercase font-rubik-bold text-gray-100 mt-5">Record today, remember tomorrow.</Text>
+                        </View>
+                        <View className="px-8">
+                            
+                            <Text className="text-lg font-rubik text-dark-200 text-center mt-4">Login to Daily Jobs </Text>
+                            
+                            
+                            <TouchableOpacity onPress={handleLoginGoogle}  className="bg-white rounded-full w-full py-4 mt-5" >
+                                <View className="flex flex-row item-center justify-center">
+                                    <Image 
+                                        source={images.googleimg}
+                                        className="w-6 h-6"
+                                        resizeMethod="contain"
+                                        />
+                                    <Text className="text-[20px] font-rubik-medium text-black-300 ml-3">Sign in with Google</Text>
+                                </View>
+                            </TouchableOpacity>
 
-            <Image source={images.bgGradiant} className="absolute top-0 left-0 "/>
-                <ScrollView contentContainerClassname="h-full">
-                        <Image
-                            source={images.signinwithoutbg}
-                            // className="w-full h-80"
-                            resizeMode="contain"
-                            style={{ width: "auto", height: 360 }}
-                            />
-                    <View className="px-10 mt-10">
-                        {/* <Text className="text-lg text-center uppercase font-rubik text-dark-200">Welcome to Daily Jobs</Text> */}
-                        <Text className="text-3xl text-center uppercase font-rubik-bold text-gray-100 mt-5">Record today, remember tomorrow.</Text>
-                    </View>
-                    <View className="px-8">
-                        
-                        <Text className="text-lg font-rubik text-dark-200 text-center mt-4">Login to Daily Jobs </Text>
-                        
-                        
-                        <TouchableOpacity onPress={handleLoginGoogle}  className="bg-white rounded-full w-full py-4 mt-5" >
-                            <View className="flex flex-row item-center justify-center">
-                                <Image 
-                                    source={images.googleimg}
-                                    className="w-6 h-6"
-                                    resizeMethod="contain"
-                                    />
-                                <Text className="text-[20px] font-rubik-medium text-black-300 ml-3">Sign in with Google</Text>
-                            </View>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={handLoginApple}  className="rounded-full w-full  mt-5" >
+                                <View className="flex flex-row item-center justify-center py-0 px-0">
+                                    <AppleAuthentication.AppleAuthenticationButton
+                                        className="w-5 h-5"
+                                        onPress={handLoginApple}
+                                        buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+                                        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+                                        cornerRadius={25}
+                                        style={{ width: "100%", height: 58 }} // You must choose default size
+                                        />
+                                </View>
+                            </TouchableOpacity>
+                            <Text className="text-center mt-4" >By continuing, you agree to our 
+                                <Link href="/404"> <Text className="text-gray-200 text-lg">Terms and Conditions.</Text></Link>
+                            </Text>
 
-                        <TouchableOpacity onPress={handLoginApple}  className=" rounded-full w-full  mt-5" >
-                            <View className="flex flex-row item-center justify-center py-0 px-0">
-                                <AppleAuthentication.AppleAuthenticationButton
-                                    className="w-5 h-5"
-                                    onPress={handLoginApple}
-                                    buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-                                    buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-                                    cornerRadius={25}
-                                    style={{ width: "100%", height: 58 }} // You must choose default size
-                                    />
-                            </View>
-                        </TouchableOpacity>
-                        <Text className="text-center mt-4" >By continuing, you agree to our 
-                            <Link href="/404"> <Text className="text-gray-200 text-lg">Terms and Conditions.</Text></Link>
-                        </Text>
-
-                    </View>
-                </ScrollView>
-            </SafeAreaView>
-        </BlurView>
+                        </View>
+                    </ScrollView>
+                </SafeAreaView>
+            </BlurView>
+        </View>
+        
     )
 }
 
