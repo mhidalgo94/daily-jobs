@@ -1,6 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HeadHome, CardHome, ItemJob } from "../../../components/tabs/home";
-import {View,Text, TouchableOpacity,FlatList} from 'react-native'
+import {View,Text, TouchableOpacity,FlatList} from 'react-native';
 import { Ionicons } from "../../../components/tabs/tabs-icons";
 
 

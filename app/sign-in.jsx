@@ -3,10 +3,10 @@ import {Text, ScrollView, Image, View, TouchableOpacity, Alert} from 'react-nati
 import images from "./contants/images";
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import {Link, Redirect} from 'expo-router';
+import {Link} from 'expo-router';
 import { BlurView } from "expo-blur";
-import { useFetchApi, useFetchLogin } from "../hooks/fetch_api";
-import { storeUserSession, retrieveUserSession } from "../hooks/user_sessions";
+import {  useFetchLogin } from "../hooks/fetch_api";
+import { storeUserSession } from "../hooks/user_sessions";
 
 import { useRouter } from "expo-router";
 import { useGlobalContextPrivate } from "../components/global-provider";

@@ -33,7 +33,7 @@ export default function Index() {
                     Sign in to manage your daily tasks easily.</Text>
 
                     <TouchableOpacity className="bg-primary-300 rounded-[10px] mt-9 mx-auto w-[300px] h-[50px] flex flex-row items-center justify-center gap-3" onPress={()=>router.push('./sign-in')}>
-                          <Text className="text-2xl text-center text-gray-200 font-rubik">Get Started</Text>
+                          <Text className="text-2xl text-center text-gray-200 font-rubik-medium">Get Started</Text>
                           <Ionicons name="arrow-forward" color="#F7F7F7"/>
                     </TouchableOpacity>
                 </View>

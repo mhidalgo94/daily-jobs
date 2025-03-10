@@ -1,6 +1,8 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useRouter } from "expo-router";
+
+
 export const HeaderJob = ({bgColorClass="bg-gray-300"})=>{
     const router = useRouter();
 

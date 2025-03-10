@@ -11,7 +11,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.daily-jobs",
-      "usesAppleSignIn": true
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "App Need Permission for access photos galery",
+        "NSPhotoLibraryAddUsageDescription": "Access is required to save images to the gallery."
+      }
     },
     "android": {
       "adaptiveIcon": {
