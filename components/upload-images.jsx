@@ -8,7 +8,6 @@ import Animated from "react-native-reanimated";
 
 // Download Image
 import * as MediaLibrary from "expo-media-library";
-import { captureRef } from 'react-native-view-shot';
 
 function UploadFilesButton({images=[], setImages}){
     const [isModalVisible, setModalVisible] = useState(false);
@@ -26,7 +25,7 @@ function UploadFilesButton({images=[], setImages}){
 
     // Pick images for job
     const pickImageAsync = async () => {
-        
+        // setImages(images)
         let result = await ImagePicker.launchImageLibraryAsync({
           allowsMultipleSelection:true,
           mediaTypes: ['images'],
@@ -34,20 +33,33 @@ function UploadFilesButton({images=[], setImages}){
           quality: 1,
         });
     
-        if (!result.canceled) {
-            const selectedImages = result.assets.slice(0, 5); // Max 5 images
-            if (result.assets.length > 5) {
-                Alert.alert('Limit exceeded', 'You can only select up to 5 images.');
-            }else{
-                setImages(selectedImages)
-                console.log(images)
-            }
+        // if (!result.canceled) {
+        //     const selectedImages = result.assets.slice(0, 5); // Max 5 images
+        //     if (result.assets.length > 5) {
+        //         Alert.alert('Limit exceeded', 'You can only select up to 5 images.');
+        //     }else{
+        //         setImages(selectedImages)
+        //     }
 
-        } 
+        // } 
+        if (!result.canceled) {
+            setImages((prevImages) => {
+                let newImages = [...prevImages, ...result.assets]; // Agregar nuevas imágenes
+                newImages = newImages.slice(0, 5); // Limitar a 5 imágenes máximo
+    
+                if (prevImages.length + result.assets.length > 5) {
+                    Alert.alert('Limit reached', 'You can only select up to 5 images.');
+                    return [...prevImages]
+                } else{
+                    return newImages;
+                }
+    
+            });
+        }
     };
+    
     // Remove images list 
     const removeImageList = (fileName)=>{
-        console.log(fileName)
         const newList = images.filter(img => img.fileName !== fileName)
         setImages(newList)
     }

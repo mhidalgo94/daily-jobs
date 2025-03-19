@@ -1,14 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { clearStoreData } from "../hooks/user_session_storage";
-
 
 const GlobalContext = createContext(undefined);
 
 export const GlobalProvider = ({children}) =>{
     const [user, setUser ] = useState(null)
     const [isLogged,setIsLogged] = useState(false);
-
-
+    
     const login = (userData) => {
         setIsLogged(true);
         setUser({...userData});  
@@ -18,6 +16,7 @@ export const GlobalProvider = ({children}) =>{
         setIsLogged(false);
         clearStoreData();
     }
+
 
     return (
         <GlobalContext.Provider

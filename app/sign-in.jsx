@@ -6,7 +6,7 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import {Link} from 'expo-router';
 import { BlurView } from "expo-blur";
 import {  useFetchLogin } from "../hooks/fetch_api";
-import { storeUserSession } from "../hooks/user_sessions";
+import { storageUserSession } from "../hooks/user_sessions";
 
 import { useRouter } from "expo-router";
 import { useGlobalContextPrivate } from "../components/global-provider";
@@ -25,7 +25,7 @@ export default function SignIn(){
         const data = await response.json();
 
         if(data.access_token && data.token_type){
-            storeUserSession({"access_token": data.access_token, token_type: data.token_type});
+            storageUserSession({"access_token": data.access_token, token_type: data.token_type});
         }
 
         if (data.user){
