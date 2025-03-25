@@ -30,6 +30,7 @@ export const useFetchApi = async (endpoint, method = "GET", body = null, headers
         },
         body ,
     }).then(response => response).catch(error=>{
+        console.log(error)
         console.error("Error en la petición:", error.message);
         throw new Error(error.message || "Error request"); 
     });

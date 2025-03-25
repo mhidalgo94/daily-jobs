@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import Animated, { useSharedValue, withTiming, useAnimatedStyle } from "react-native-reanimated";
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -34,12 +34,14 @@ function AccordionSelect({title , value = undefined, setValue ,selectList=[], he
 
             {/* Contenido animado */}
             <Animated.View style={[animatedStyle, { paddingHorizontal: 10 }]}>
+                <ScrollView>
                 {selectList.map((item) => (
                     <TouchableOpacity key={item} className="py-2 flex flex-row items-center justify-between" onPress={() => selectItem(item)}>
                         <Text className={`${item === value ? "text-green-500" :"text-white"} text-md`}>{item}</Text>
                         {(item === value) ? <Icon name="checkmark" color="#22c55e" size={20}/> : <></>}
                     </TouchableOpacity>
                 ))}
+                </ScrollView>
             </Animated.View>
         </View>
     )

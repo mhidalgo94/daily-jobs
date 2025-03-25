@@ -33,15 +33,6 @@ function UploadFilesButton({images=[], setImages}){
           quality: 1,
         });
     
-        // if (!result.canceled) {
-        //     const selectedImages = result.assets.slice(0, 5); // Max 5 images
-        //     if (result.assets.length > 5) {
-        //         Alert.alert('Limit exceeded', 'You can only select up to 5 images.');
-        //     }else{
-        //         setImages(selectedImages)
-        //     }
-
-        // } 
         if (!result.canceled) {
             setImages((prevImages) => {
                 let newImages = [...prevImages, ...result.assets]; // Agregar nuevas imágenes
@@ -85,23 +76,26 @@ function UploadFilesButton({images=[], setImages}){
     }
     
 
-    
-    
     return (
         <>
-            <TouchableOpacity onPress={pickImageAsync} className="bg-darkgray rounded-lg border border-dashed border-green-500 p-2 mt-5">
-                <Text className="text-green-500 text-center text-lg font-rubik-bold">Upload Images</Text>
+            <TouchableOpacity onPress={pickImageAsync} disabled={images.length >= 5} className={`${images.length >= 5 ? "bg-gray-500 border-gray-500" : "bg-darkgray border-green-500" } rounded-lg border border-dashed  p-2 mt-5`}>
+                <Text className={`${images.length >= 5 ? "text-black-250":"text-green-500"} text-center text-lg font-rubik-bold`}>{images.length == 0 ? "Upload Images" : "Add images"}</Text>
             </TouchableOpacity>
+            {images.length >= 5 && (
+                <View className="mt-1 pt-1 pl-1">
+                    <Text className="text-warning-400">5 images maximum</Text>
+                </View>
+            )}
+            
             <ScrollView className="">
                 <View className="flex-row flex-wrap justify-around px-2 mt-4">
                     {images.length > 0 ?
                             images.map((img, index)=> (
                                 <Animated.View
-                                    entering={Animated.FadeIn} // Aparece con animación de entrada
+                                    entering={Animated.FadeIn} // Animation In
                                     exiting={Animated.FadeOut}
                                     key={index}
                                     className="w-[30%] h-32 rounded-t-lg rounded-b-none mb-2"
-                                    
                                     >
 
                                 <Pressable onPress={()=>{handleImagePress(img.uri)}}  className="">

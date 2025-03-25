@@ -1,4 +1,4 @@
-import {Text, View,TouchableOpacity, ScrollView, Alert} from 'react-native';
+import {Text, View,TouchableOpacity, ScrollView, TextInput} from 'react-native';
 import Accordion from './accordion';
 import Icon from 'react-native-vector-icons/Ionicons';
 import listCoastRate from '../app/contants/list-coast-rate';
@@ -18,6 +18,7 @@ function TextAmountCode({amount}){
 function ListCodeJob({setCoastRate,...rest}){
 
     const { rates } = listCoastRate;
+    const [searchCode, setSearchCode] = useState(null);
     const [jsonCodeRate, setJsonCodeRate] = useState(rates);
 
 
@@ -30,6 +31,7 @@ function ListCodeJob({setCoastRate,...rest}){
         );
 
     };
+
     const handleLongPress = (job_code, amount)=>{
         if (amount == 0){
             return false
@@ -41,32 +43,50 @@ function ListCodeJob({setCoastRate,...rest}){
             );
         }
     }
+    // Filter list code rates
+    const filteredRate = searchCode ? jsonCodeRate.filter(
+        (item) =>
+          item.job_code.toLowerCase().includes(searchCode.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchCode.toLowerCase())
+      ) : jsonCodeRate;
+    
 
     useEffect(()=>{
         const listCodeJobChecked = jsonCodeRate.filter((values)=> values.amount > 0)
         setCoastRate(listCodeJobChecked);
+
     },[jsonCodeRate])
     return(
         <View className="mt-2">
-            <Accordion title="Extra Code" {...rest}>
+            <Accordion title="Select..." {...rest}>
+                <View className="bg-darkgray-200 px-2 mx-2 rounded-lg border border-gray-700">
+                    <TextInput 
+                        placeholder={"Search"}
+                        className="text-white text-base p-2 bg-darkgray-200"
+                        // label="Income"
+                        // onChangeText={(values)=>filterCode(values)}
+                        onChangeText={setSearchCode}
+                        value={searchCode}
+                        placeholderTextColor="#f5f5f5"
+                        keyboardType="decimal-pad"
+                    />
+                </View>
                 <ScrollView>
-                    {jsonCodeRate.map((item)=>{
+                {filteredRate.map((item)=>{
                         return (
-                            <TouchableOpacity className="flex flex-row items-center gap-1 p-1"
+                            <TouchableOpacity className="flex flex-row items-center justify-between gap-1 p-1 w-full"
                                 key={item.job_code}
                                 onPress={() => toggleCheckbox(item.job_code, item.amount)}
-                                onLongPress={()=>handleLongPress(item.job_code, item.amount)} // Detecta la pulsación larga
+                                onLongPress={()=>handleLongPress(item.job_code, item.amount)} // Delete amount code rates
                                 delayLongPress={500}
                             >
-                                <View className="flex flex-row items-center justify-center">
-                                    {item.amount == 0 ? <Icon name="close-circle" size={28} color="#b91c1c"/> : <TextAmountCode amount={item.amount}/>}
-                                </View>
-                                <View className="w-full pr-12 flex flex-row items-center justify-between gap-1">
+                                <View className="flex flex-row items-center justify-between gap-1 w-full">
                                     <View className="flex flex-row items-center gap-1">
+                                        {item.amount == 0 ? <Icon name="close-circle" size={28} color="#b91c1c"/> : <TextAmountCode amount={item.amount}/>}
                                         <Text className={`${item.checked ? "text-green-500" : "text-gray-200"} text-lg`}>{item.job_code}</Text>
-                                        <Text className={`${item.checked ? "text-green-500" : "text-gray-200"} text-lg`}>{item.description.slice(0,26)}...</Text>
+                                        <Text className={`${item.checked ? "text-green-500" : "text-gray-200"} text-lg`}>{item.description.slice(0,27)}...</Text>
                                     </View>
-                                    <Text className={`${item.checked ? "text-green-500" : "text-gray-200"}`}>{item.cost}</Text>
+                                        <Text className={`${item.checked ? "text-green-500" : "text-blue-400"} text-left pr-2`}>${item.cost}</Text>
                                 </View>
                                 
                             </TouchableOpacity>
