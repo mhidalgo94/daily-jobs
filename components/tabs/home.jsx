@@ -1,5 +1,5 @@
 import { Ionicons } from "./tabs-icons";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
 import { useGlobalContextPrivate } from "../global-provider";
 
 
@@ -25,8 +25,9 @@ export const HeadHome = ()=> {
 
 }
 
-export const CardHome = ({jobs})=>{
-    const utc = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
+export const CardHome = ({jobs, date, week_earned,loading=false} )=>{
+    const utc = date.toLocaleDateString();
+    const totalGanancias = jobs.length ? jobs.reduce((sum, job) => sum + job.income, 0) : 0;
     const colorTextJobs = jobs.length === 0 ? "text-red-500" : jobs.length <= 5 ? "text-orange-400" : jobs.length <= 8 ?  "text-gold-100" : jobs.length > 8 ? "text-purple-600" : "text-black-300"
     return (
         <View className="mt-7 bg-gray-200  rounded-2xl">
@@ -39,12 +40,13 @@ export const CardHome = ({jobs})=>{
 
                     {/* Contenido */}
                     <View style={stylesCard.content}>
-                        <View className="flex flex-row items-center justify-between bg-transparent">
+                        <View className="flex flex-row items-center justify-between bg-transparent w-full">
                             <View className="p-8">
-                                <Text className="text-5xl text-green-500 font-rubik-bold">$ {"210.12"}</Text>
+                                <Text className="text-5xl text-green-500 font-rubik-bold">$ {loading ?<ActivityIndicator size="large" color="#22c55e" /> : parseFloat(totalGanancias).toFixed(2)}
+                                </Text>
                                 <Text className="text-black-200 font-rubik-medium">Balance Today</Text>
                                 <View className="mt-5">
-                                    <Text className="text-4xl text-orange-500  font-rubik-bold">$ {"1204.12"}</Text>
+                                    <Text className="text-4xl text-orange-500  font-rubik-bold">$ {loading ?<ActivityIndicator size="large" color="#f97316" /> : week_earned}</Text>
                                     <Text className="text-black-200  font-rubik-medium">Balance this week</Text>
                                 </View>
                             </View>
@@ -84,9 +86,9 @@ export const ItemJob = ({job})=>{
         }
     }
     // States job for list jobs
-    const statusTextColor = job.status == "Complete" ? "text-regular" : job.status == "Canceled" ? "text-warning" : job.status == "On Hold" ? "text-accent"  : "text-regular"
+    const statusTextColor = job.status == "Complete" ? "text-regular" : job.status == "Canceled" ? "text-red-500" : job.status == "On Hold" ? "text-accent"  : "text-regular"
     return (
-        <View className="mt-3 px-5 py-3 rounded-2xl bg-darkgray-300">
+        <View className="mt-3 px-3 py-3 rounded-lg bg-darkgray-300">
             <View className="flex flex-row gap-3 items-center justify-between">
                 <View className="flex flex-row gap-2">
                     <View className="p-2 rounded-2xl bg-orange-500">
@@ -94,7 +96,7 @@ export const ItemJob = ({job})=>{
                     </View>
                     <View>
                         <View className="flex flex-row items-center">
-                            <Text className="text-2xl font-rubik-medium text-gray-100">{job.id} - </Text>
+                            <Text className="text-2xl font-rubik-medium text-gray-100">{job.job_number} - </Text>
                             <Text className="text-gray-200 text-sm">{job.category}</Text>
 
                         </View>

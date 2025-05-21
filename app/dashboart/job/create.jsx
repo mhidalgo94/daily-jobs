@@ -109,7 +109,7 @@ function CreateJob(){
                 }
                 if(response.ok){
                     Alert.alert("Completed",`Number ${data.job_number} saved successfully`);
-                    route.back()
+                    route.push("/dashboart/home")
                 }
             }catch(err){
                 
