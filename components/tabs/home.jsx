@@ -1,7 +1,7 @@
 import { Ionicons } from "./tabs-icons";
 import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
 import { useGlobalContextPrivate } from "../global-provider";
-
+import { Link } from 'expo-router'
 
 export const HeadHome = ()=> {
     const {user} = useGlobalContextPrivate();
@@ -88,25 +88,27 @@ export const ItemJob = ({job})=>{
     // States job for list jobs
     const statusTextColor = job.status == "Complete" ? "text-regular" : job.status == "Canceled" ? "text-red-500" : job.status == "On Hold" ? "text-accent"  : "text-regular"
     return (
-        <View className="mt-3 px-3 py-3 rounded-lg bg-darkgray-300">
-            <View className="flex flex-row gap-3 items-center justify-between">
-                <View className="flex flex-row gap-2">
-                    <View className="p-2 rounded-2xl bg-orange-500">
-                        <IconJobs category={job.category} size={28} color="#e5e7eb" />
+        <View className="mt-3  py-3 px-2 rounded-lg bg-darkgray-300">
+            <Link href={`/dashboart/job/${job.job_number}`}>
+                <View className="flex flex-row gap-3 items-center justify-between w-full">
+                    <View className="flex flex-row gap-2">
+                        <View className="p-2 rounded-2xl bg-orange-500">
+                            <IconJobs category={job.category} size={28} color="#e5e7eb" />
+                        </View>
+                        <View>
+                            <View className="flex flex-row items-center">
+                                <Text className="text-2xl font-rubik-medium text-gray-100">{job.job_number} - </Text>
+                                <Text className="text-gray-200 text-sm">{job.category}</Text>
+
+                            </View>
+                            <Text className="text-gray-200">{job.address}</Text>
+                        </View>
                     </View>
                     <View>
-                        <View className="flex flex-row items-center">
-                            <Text className="text-2xl font-rubik-medium text-gray-100">{job.job_number} - </Text>
-                            <Text className="text-gray-200 text-sm">{job.category}</Text>
-
-                        </View>
-                        <Text className="text-gray-200">{job.address}</Text>
+                        <Text className={`${statusTextColor} font-rubik-medium`} >{job.status}</Text>
                     </View>
                 </View>
-                <View>
-                    <Text className={`${statusTextColor} font-rubik-medium`} >{job.status}</Text>
-                </View>
-            </View>
+            </Link>
         </View>
     )
 }

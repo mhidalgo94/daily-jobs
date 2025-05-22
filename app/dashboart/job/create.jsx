@@ -150,7 +150,7 @@ function CreateJob(){
 
     return (
         <View className="h-full">
-            <HeaderJob bgColorClass="pb-4" />
+            <HeaderJob bgColorClass="pb-4" titleHead={"Create Job"} />
             <KeyboardAwareScrollView  contentContainerStyle={{ flexGrow: 1 }} extraScrollHeight={50}>
                 <ScrollView className="px-2 mb-1 h-full">
 
