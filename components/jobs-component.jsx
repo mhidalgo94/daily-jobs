@@ -7,11 +7,13 @@ export const HeaderJob = ({bgColorClass="bg-gray-300", titleHead})=>{
     const router = useRouter();
 
     return (
-        <View className="px-2 flex flex-row items-center bg-darkgray">
-            <TouchableOpacity className={`${bgColorClass} p-1 rounded-lg`} onPress={()=>router.back()}>
-                <Icon name="arrow-back" color="#f3f4f6" size={32} />
+        <View className="flex flex-row items-center bg-red px-2">
+            <TouchableOpacity className={`${bgColorClass} rounded-lg`} onPress={()=>router.back()}>
+                    <Icon name="arrow-back" color="#f3f4f6" size={32}  />
             </TouchableOpacity>
-            <Text className="text-white font-rubik-medium text-3xl text-center w-full">{titleHead}</Text>
+            <View className="flex items-center h-full w-full">
+                <Text className="text-white font-rubik-medium text-3xl text-center w-full">{titleHead}</Text>
+            </View>
         </View>
     )
 }
