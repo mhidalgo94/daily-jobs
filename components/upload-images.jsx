@@ -57,7 +57,11 @@ function UploadFilesButton({images=[], setImages}){
 
     // Función para descargar la imagen
     const onSaveImageAsync = async (uriImagen) => {
-        console.log(uriImagen)
+        const { status } = await MediaLibrary.requestPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert('Permission denied', 'You need to grant media access permission to save images.');
+        return;
+        }
         if (Platform.OS !== 'web') {
           try {
         //     const localUri = await captureRef(uriImagen,{
@@ -87,7 +91,7 @@ function UploadFilesButton({images=[], setImages}){
                 </View>
             )}
             
-            <ScrollView className="">
+            <ScrollView>
                 <View className="flex-row flex-wrap justify-around px-2 mt-4">
                     {images.length > 0 ?
                             images.map((img, index)=> (
@@ -98,7 +102,7 @@ function UploadFilesButton({images=[], setImages}){
                                     className="w-[30%] h-32 rounded-t-lg rounded-b-none mb-2"
                                     >
 
-                                <Pressable onPress={()=>{handleImagePress(img.uri)}}  className="">
+                                <Pressable onPress={()=>{handleImagePress(img.uri)}}>
                                     <Image
                                         source={{ uri: img.uri }}
                                         className="w-full h-32 rounded-t-lg rounded-b-none"
@@ -114,28 +118,28 @@ function UploadFilesButton({images=[], setImages}){
                     }
                 </View>
             </ScrollView>
-                <View className="flex-1 justify-center items-center bg-black bg-opacity-70">
-                    <Modal
-                        transparent={true}
-                        visible={isModalVisible}
-                        animationType="slide"
-                        onRequestClose={handleCloseModal}
-                    >
-                        <Pressable onPress={handleCloseModal} className="flex-1 justify-center items-center bg-black bg-opacity-80">
-                            <Image
-                                source={{ uri: uriImagenModal }}
-                                className="w-4/5 h-4/5 rounded-lg"
-                                resizeMode="contain"
-                                />
-                        </Pressable>
-                        <TouchableOpacity
-                            onPress={()=>onSaveImageAsync(uriImagenModal)}
-                            className="absolute bottom-8 mb-6 mr-6 right-3 bg-blue-600 rounded-lg"
-                            >
-                            <Icon name="download-outline" size={32} />
-                        </TouchableOpacity>
-                    </Modal>
-                </View>
+            <View className="flex-1 justify-center items-center bg-black bg-opacity-70">
+                <Modal
+                    transparent={true}
+                    visible={isModalVisible}
+                    animationType="slide"
+                    onRequestClose={handleCloseModal}
+                >
+                    <Pressable onPress={handleCloseModal} className="flex-1 justify-center items-center bg-black bg-opacity-80">
+                        <Image
+                            source={{ uri: uriImagenModal }}
+                            className="w-4/5 h-4/5 rounded-lg"
+                            resizeMode="contain"
+                            />
+                    </Pressable>
+                    <TouchableOpacity
+                        onPress={()=>onSaveImageAsync(uriImagenModal)}
+                        className="absolute bottom-8 mb-6 mr-6 right-3 bg-blue-600 rounded-lg"
+                        >
+                        <Icon name="download-outline" size={32} />
+                    </TouchableOpacity>
+                </Modal>
+            </View>
         </>
     )
 }
