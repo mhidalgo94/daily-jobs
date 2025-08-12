@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { HeaderJob } from "../../../components/jobs-component";
 import { useFetchApi } from '../../../hooks/fetch_api';
-
+import { useRouter } from 'expo-router';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 
 function Job(){
+    const route = useRouter()
     const { id } = useLocalSearchParams();
     const [loading, setLoading] = useState(false);
     const [loadingBtn, setLoadingBtn] = useState(false);
@@ -32,7 +33,7 @@ function Job(){
         try {
           const { status } = await MediaLibrary.requestPermissionsAsync();
           if (status !== 'granted') {
-            Alert.alert('Permiso denegado para acceder a la galería.');
+            Alert.alert('Permission denied to access the gallery.');
             return;
           }
 
@@ -42,17 +43,15 @@ function Job(){
           const downloadResumable = await FileSystem.downloadAsync(uriImagen, path);
           await MediaLibrary.saveToLibraryAsync(downloadResumable.uri);
 
-          Alert.alert('Imagen guardada en tu galería');
+          Alert.alert('Saved image');
         } catch (error) {
-          console.log('Error saving image:', error);
-          Alert.alert('Error al guardar la imagen');
+          // console.log('Error saving image:', error);
+          Alert.alert('Error saving image');
         }
       }  
     }   
 
     // Finish modal
-
-
 
     useEffect(()=>{
         const GetJob = async () => { 
@@ -71,8 +70,6 @@ function Job(){
                 }finally{
                   setLoading(false);
                 }
-                
-                
               }
         GetJob()
     },[])
@@ -80,23 +77,55 @@ function Job(){
     const deleteJob = async()=>{
       setLoadingBtn(true)
       try{
-        const url = `/jobs/${id}`;
-          const response = await useFetchApi(url , method="DELETE");
-          if (!response.ok) {
-            const r = await response.json();
-            Alert.alert("Message",r.detail ||"Error Server, Try later.")
-          } else{
-
-            
-            const data = await response.json();
-            // console.log(data)
-          }
-
+          
+          
+            Alert.alert('Delete Job', `Are you sure you want to delete this job: ${id}?`, [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: async () => {
+                  const url = `/jobs/${id}`;
+                  const response = await useFetchApi(url , method="DELETE");
+                  if (!response.ok) {
+                    const r = await response.json();
+                    Alert.alert("Message",r.detail ||"Error Server, Try later.")
+                  } else{
+                    const res = await response.json()
+                    Alert.alert('Complete', 'Job was deleted successfully')
+                    console.log(res)
+                    route.push("/dashboart/home")
+                  }
+                } 
+              }]);
         }catch(err){
           console.log(err)
         }finally{
           setLoadingBtn(false);
         }
+    }
+
+    // Remove image
+    function removeImageList(id){
+        Alert.alert('Delete Image', 'Are you sure you want to delete this image?', [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: async () => {
+            const url = `/jobs/${job.job_number}/${id}`;
+            const response = await useFetchApi(url , method="DELETE");
+            const res = await response.json()
+            Alert.alert('Complete', 'Image was deleted successfully')
+            setJob(prevJob => ({
+                    ...prevJob,
+                    ["images"]: prevJob["images"].filter(item => item.id !== id)
+                  }));
+            }
+          }
+        ]);
     }
 
     const CoastRateItem = ({item})=>{
@@ -141,7 +170,7 @@ function Job(){
                 <View>
                   <Text className="text-primary-200 text-2xl font-rubik-medium">Coast Rates:</Text>
                   <View className="p-2 mt-2 bg-darkgray-300 rounded-lg">
-                    {job?.coastRate.length ?
+                    {job?.coastRate?.length > 0 ?
                       <FlatList
                         data={job?.coastRate}
                         scrollEnabled={false}
@@ -159,15 +188,18 @@ function Job(){
                   </View>
                   <View className="h-40">
                     {job?.images.length ?
-                      <View className="">
+                      <View className="flex-row flex-wrap justify-around px-2 mt-4">
                         {/* <Text className="text-center text-white">Aqui van las images</Text> */}
                         <FlatList
                           horizontal
                           data={job.images}
                           keyExtractor={(item) => item.id.toString()}
                           renderItem={({ item }) => (
-                                <Pressable onPress={()=>{handleImagePress(item.path)}}>
+                              <Pressable onPress={()=>{handleImagePress(item.path)}}>
                                 <Image source={{ uri: item.path }}className="w-32 h-32 mx-2 rounded-xl" resizeMode="cover" />
+                                  <TouchableOpacity onPress={()=>removeImageList(item.id)} className="absolute top-0 right-1 p-1">
+                                    <Icon name="close-circle-outline" size={28}></Icon>
+                                  </TouchableOpacity>
                             </Pressable>
                           )}
                         />
