@@ -1,4 +1,5 @@
-import {View,Platform, Text, FlatList, TouchableOpacity,Modal,Pressable, ScrollView, ActivityIndicator, Alert, Image } from 'react-native'
+import {View,Platform, Text, FlatList, TouchableOpacity,
+  Modal,Pressable, ScrollView, ActivityIndicator, Alert, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
@@ -188,8 +189,7 @@ function Job(){
                   </View>
                   <View className="h-40">
                     {job?.images.length ?
-                      <View className="flex-row flex-wrap justify-around px-2 mt-4">
-                        {/* <Text className="text-center text-white">Aqui van las images</Text> */}
+                      <View className="flex-row flex-wrap justify-around px-1 mt-4">
                         <FlatList
                           horizontal
                           data={job.images}
@@ -228,7 +228,7 @@ function Job(){
                 </TouchableOpacity>
               </View>
               :
-              <Text>{loading ? "Loading" : "ready"} -----{">>>>>"} {id}</Text>
+              <Text>{loading ? "Loading" : "ready"} ----- {">>>>>"} {id}</Text>
               }
             </View>
             </ScrollView>
@@ -240,20 +240,21 @@ function Job(){
                 onRequestClose={handleCloseModal}
             >
                 <Pressable onPress={handleCloseModal} className="flex-1 justify-center items-center bg-black bg-opacity-80">
+                  <Text className="color-info-300 m-2">Click for close</Text>
                     <Image
                         source={{ uri: uriImagenModal }}
                         className="w-4/5 h-4/5 rounded-lg"
                         resizeMode="contain"
                         />
                 </Pressable>
-                <TouchableOpacity
-                    onPress={()=>onSaveImageAsync(uriImagenModal)}
-                    className="absolute bottom-8 mb-6 mr-6 right-3 bg-blue-600 rounded-lg"
-                    >
-                    <Icon name="download-outline" size={32} />
-                </TouchableOpacity>
+                  <TouchableOpacity
+                      onPress={()=>onSaveImageAsync(uriImagenModal)}
+                      className="absolute bottom-3 mb-6 mr-6 right-3 bg-blue-600 rounded-lg"
+                      >
+                      <Icon name="download-outline" size={32} />
+                  </TouchableOpacity>
             </Modal>
-        </View>
+          </View>
         </View>
     )
 }

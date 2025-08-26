@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { HeadHome, CardHome, ItemJob } from "../../../components/tabs/home";
 import {View,Text,FlatList, ActivityIndicator} from 'react-native';
 import { Ionicons } from "../../../components/tabs/tabs-icons";
+
 import { useFetchApi } from "../../../hooks/fetch_api";
 import { PickerDate } from '../../../components/picker/date-picker';
 
