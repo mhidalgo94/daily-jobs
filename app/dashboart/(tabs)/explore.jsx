@@ -23,8 +23,7 @@ export default function Explore(){
             if (!response.ok) {
                 Alert.alert("Message", `${data.detail}`)
             }
-
-            setJobs(data)
+            setJobs(data);
         } catch (err) {
             console.error(err);
         } finally{
@@ -78,7 +77,7 @@ export default function Explore(){
                             jobs.length ?
                             <FlatList className="p-1" data={jobs}  
                             renderItem={({item}) => <ItemJob job={item} />} 
-                            keyExtractor={item => item.id}
+                            keyExtractor={item => item.job_number}
                             contentContainerStyle={{ paddingBottom: 50 }}
                             />
                             :

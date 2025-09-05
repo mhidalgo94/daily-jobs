@@ -42,7 +42,7 @@ export default function HomeDashboart() {
     useEffect(()=> {
         const getIncome = async ()=>{
         const params = new URLSearchParams({ date_filter: date.toLocaleDateString() });
-        const url = `/income-week/by-date?${params.toString()}`
+        const url = `/income-week/by-date?${params.toString()}`;
         const response = await useFetchApi(url , method="GET");
         const data = await response.json();
         setWeekEarned(data.week_earned)
