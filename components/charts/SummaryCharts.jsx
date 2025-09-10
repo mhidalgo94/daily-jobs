@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
+import {View, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native'
 import { BarChart } from 'react-native-gifted-charts'
 import {PickerDate} from '../picker/date-picker'
 import {useState, useEffect} from 'react';
@@ -11,13 +11,12 @@ export default function SummaryChart(){
     const [allData, setAllData] = useState();
     const [weekData, setWeekData] = useState([]);
     const [loadingChart, setLoadingChart] = useState(false);
-
+    const [keyBarChart, setKeyBarChart] = useState(0)
     // Segment Values
     const SegmentValues = ['Income', 'Jobs']
     const [selectedValue, setSelectedValue] = useState(SegmentValues[0]); 
 
     const mappingDataIncome = (data) =>{
-        console.log("mapping data")
         const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
         const values =  allDays.map((day,income_total) => {
             const jobForDay = data.jobs.find(item => item.day_of_week === day);
@@ -27,13 +26,26 @@ export default function SummaryChart(){
                 label: day,
                 frontColor: income_total < 100 ? "#3b82f6":  "#8b5cf6",
                 gradientColor: income_total < 100 ? "#10b981":  "#06b6d4",
-                // value: jobForDay ? Math.round(jobForDay.income_total) : 0,
                 value ,
                 valueTextColor: 'gray'
             };
         })
         setWeekData(values)
-        // return values
+    }
+
+    const prevWeek = () => {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() - 7); // sumamos 7 días
+        setDate(newDate)
+        console.log(selectedValue)
+
+    }
+
+    const nextWeek = ()=>{
+        console.log(selectedValue)
+        const nextDate = new Date(date);
+        nextDate.setDate(nextDate.getDate() + 7); // sumamos 7 días
+        setDate(nextDate)
     }
 
     // Get week earned
@@ -49,12 +61,13 @@ export default function SummaryChart(){
                 }
                 const dataResponse = await response.json();
                 setAllData(dataResponse);
-                const chartData =  mappingDataIncome(dataResponse);
-                // setWeekData(chartData)
+                // set data BarChart
+                mappingDataIncome(dataResponse);
             }catch(err){
                 console.log(err)
             }finally{
                 setLoadingChart(false)
+                setKeyBarChart((prev)=> prev + 1)
             }
         }
         getIncome()
@@ -69,22 +82,17 @@ export default function SummaryChart(){
     return (
         <View className="mx-4 mt-4 p-3 bg-darkgray-200 rounded-lg">
             <View className="flex flex-row justify-between align-center">
-                <Text className="text-lg text-primary-200">Week: 08/09/2025</Text>
-                <PickerDate  date={date} setDate={setDate}/>
+                <Text className="text-lg text-primary-200">Date:  {allData?.info?.week_date ? `${allData?.info?.week_date[0]} - ${allData?.info?.week_date[1]}` : date.toLocaleDateString()}</Text>
+                {loadingChart ? <ActivityIndicator size="medium" color="#3b82f6" className="mr-3" /> : <PickerDate  date={date} setDate={setDate}/>}
 
             </View>
+            <View className="flex mb-2">
+                <Text className="text-lg text-primary-200">Income: ${parseFloat(allData?.info?.total_income).toFixed(2) || "No data found"}</Text>
+            </View>
             <View className="mt-3 pt-2">
-            {loadingChart ? (
-                // 👇 Loading State
-                <View className="items-center justify-center h-64 w-full">
-                    <ActivityIndicator size="large" color="#3b82f6" />
-                    <Text className="text-white mt-2">Loading chart...</Text>
-                </View>
-            ) : (
-            //Chart
             <BarChart data={weekData} 
                 // maxValue={maxValue}
-                key={selectedValue}
+                key={keyBarChart}
                 height={250} width={300}
                 barWidth={25}
                 minHeight={3}
@@ -105,14 +113,14 @@ export default function SummaryChart(){
                 showGradient
                 valueTe
                 renderTooltip={(item, index) => {
-                    return <Text className="text-gray-300 text-center font-rubik-bold">{selectedValue === "Income" ? `$${item.value}` : `${item.value}`}</Text>
+                    return <Text className="flex text-gray-300  text-center font-rubik-bold">{selectedValue === "Income" ? `$${item.value}` : `${item.value}`}</Text>
                 }}
                 />
-            )}
+
             </View>
             <View className="flex-row items-center">
-                <TouchableOpacity>
-                    <Ionicons name="caret-back-circle-outline" size={38}></Ionicons>
+                <TouchableOpacity onPress={prevWeek} disabled={loadingChart}>
+                    <Ionicons name="caret-back-circle-outline" color={loadingChart ? "gray" : '#00A5CF'} size={38}></Ionicons>
                 </TouchableOpacity>
                     <SegmentedControl
                         appearance='dark'
@@ -120,12 +128,17 @@ export default function SummaryChart(){
                         values={SegmentValues}
                         selectedIndex={SegmentValues.indexOf(selectedValue)}
                         onChange={(event) => {
-                        const index = event.nativeEvent.selectedSegmentIndex;
-                        setSelectedValue(SegmentValues[index]);
+
+                            const index = event.nativeEvent.selectedSegmentIndex;
+                            setSelectedValue(SegmentValues[index]);
+                            setKeyBarChart((prev)=> prev + 1)
+
                         }}
+                        enabled={!loadingChart}
                     />
-                <TouchableOpacity>
-                    <Ionicons name="caret-forward-circle-outline" size={38}></Ionicons>
+
+                <TouchableOpacity onPress={nextWeek} disabled={loadingChart}>
+                    <Ionicons name="caret-forward-circle-outline" color={loadingChart ? "gray" : '#00A5CF'} size={38}></Ionicons>
                 </TouchableOpacity>
             </View>
         </View>
